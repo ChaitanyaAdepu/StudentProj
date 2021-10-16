@@ -5,6 +5,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import com.student.service.StudentService;
 @RestController
 @RequestMapping("api/v1/students")
 public class StudentController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
 
 	@Autowired
 	StudentService stuService;
