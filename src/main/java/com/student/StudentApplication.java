@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.student.bean.Student;
 
 @SpringBootApplication
-@ComponentScan({"com.student.controller","com.student.service",})
+@ComponentScan({"com.student.controller","com.student.service","com.student.exception"})
 public class StudentApplication {
 
 	public static void main(String[] args) {
