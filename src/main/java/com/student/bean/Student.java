@@ -12,14 +12,19 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Table;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.student.service.StudentService;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(appliesTo = "student")
 public class Student {
+	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+
 	@Id
 	@SequenceGenerator(
 			name = "student_sequence",
@@ -49,7 +54,7 @@ public class Student {
 	@Column(name = "dob")
 	private LocalDate dob;
 	//@JsonProperty("age")
-	@Column(name = "age")
+	@Transient
 	private Integer age;
 	
 	public Student() {
@@ -57,23 +62,23 @@ public class Student {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Student(Long id, String firstName, String lastName, String email, LocalDate dob,Integer age) {
+	public Student(Long id, String firstName, String lastName, String email, LocalDate dob) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.dob = dob;
-		this.age=age;
+		//this.age=age;
 	}
 
-	public Student(String firstName, String lastName, String email, LocalDate dob,Integer age) {
+	public Student(String firstName, String lastName, String email, LocalDate dob) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.dob = dob;
-		this.age=age;
+		//this.age=age;
 	}
 
 	public Long getId() {
@@ -107,7 +112,7 @@ public class Student {
 		this.dob = dob;
 	}
 	public Integer getAge() {
-        return Period.between(this.dob, LocalDate.now()).getYears();
+        return age;
 	}
 	public void setAge(Integer age) {
 		this.age = age;

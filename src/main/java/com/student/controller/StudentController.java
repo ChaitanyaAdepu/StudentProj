@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +42,7 @@ public class StudentController {
 	 */
 	@GetMapping
 	public List<Student> getStudents() {
-		 LOGGER.debug("test");
+		 LOGGER.info("test");
 		return stuService.getStudents();
 	}
 	
@@ -55,4 +57,15 @@ public class StudentController {
 		 LOGGER.debug("id>>>{}",student.getEmail());
 		stuService.addStudent(student); 
 	 }
+	 @DeleteMapping("/{id}")
+	 public void deleteStudentById(@PathVariable Long id) {
+		 LOGGER.info("id>>>{}",id);
+		 stuService.deleteStudentById(id);
+	 }
+	/* @PutMapping("/{id}")
+	 public void updateStudentById(@PathVariable Long id,@RequestParam(required = false) String fname,@RequestParam(required = false) String lname) {
+		 LOGGER.info("id>>>{}",id);
+		 LOGGER.info("fname{}>>>lname{}",fname,lname);
+		 stuService.updateStudentById(id,fname,lname);
+	 }*/
 }
