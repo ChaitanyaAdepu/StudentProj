@@ -36,10 +36,7 @@ public class StudentController {
 	    this.stuService = stuService;
 	}
 
-	/*
-	 * @RequestMapping("/") public String home() { return "Welcome to Students App";
-	 * }
-	 */
+	
 	@GetMapping
 	public List<Student> getStudents() {
 		 LOGGER.info("test");

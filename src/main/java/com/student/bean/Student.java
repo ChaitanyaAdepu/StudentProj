@@ -77,7 +77,7 @@ public class Student {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.dob = dob;
+		this.dob = dob; 
 		//this.age=age;
 	}
 
