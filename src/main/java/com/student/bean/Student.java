@@ -23,7 +23,6 @@ import com.student.service.StudentService;
 @Entity
 @Table(appliesTo = "student")
 public class Student {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Student.class);
 
 	@Id
 	@SequenceGenerator(

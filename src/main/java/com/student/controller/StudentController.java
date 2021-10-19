@@ -1,14 +1,11 @@
 package com.student.controller;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +23,7 @@ import com.student.service.StudentService;
 @RestController
 @RequestMapping("api/v1/students")
 public class StudentController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
+	//private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 
 	@Autowired
 	StudentService stuService;
@@ -55,7 +51,7 @@ public class StudentController {
 		 stuService.deleteStudentById(id);
 	 }
 	 @PutMapping("/{id}")
-	 public void updateStudentById(@PathVariable Long id,@RequestParam(name="firstName",required = false) String fname,@RequestParam(name="lastName",required = false) String lname) {
+	 public void updateStudentById(@PathVariable Long id,@RequestParam(name="firstName",required = false) String fname,@RequestParam(name="lastName",required = false) String lname) throws StudentDataException {
 		 stuService.updateStudentById(id,fname,lname);
 	 }
 	 

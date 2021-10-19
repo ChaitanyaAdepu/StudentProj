@@ -50,10 +50,8 @@ public class StudentService {
 	@ResponseStatus(HttpStatus.OK)
 	public void addStudent(Student student) throws StudentDataException {
 		String email = student.getEmail();
-		if(studentRepo.findByEmail(email).isPresent()) {// || !studentRepo.findByEmail(email).isEmpty()){
-			//LOGGER.info("email>>>>{}",email);
+		if(studentRepo.findByEmail(email).isPresent()) {
 			throw new StudentDataException(ErrorCode.EMAIL_ALREADY_TAKEN, "Requested "+email+" email already taken");
-			//throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, ErrorCode.EMAIL_ALREADY_TAKEN);
 		}
 		studentRepo.save(student);
 	
@@ -72,7 +70,7 @@ public class StudentService {
 		}
 	}
 	@Transactional
-	public void updateStudentById(Long id,String fname,String lname) {
+	public void updateStudentById(Long id,String fname,String lname) throws StudentDataException {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
@@ -81,10 +79,9 @@ public class StudentService {
 			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" "+ErrorCode.DATA_DOES_NOT_EXIST));
             student.setFirstName(fname);
             student.setLastName(lname);
-			//studentRepo.save(student);
 		}
-		if(id==null) {
-			throw new IllegalArgumentException("ID can not be null");
+		if(id==null || String.valueOf(id).equals("")) {
+			throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "ID can not be null");
 		}
 		}
 }
