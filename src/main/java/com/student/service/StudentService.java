@@ -22,7 +22,7 @@ import com.student.StudentRepository;
 import com.student.bean.Student;
 import com.student.exception.ErrorCode;
 import com.student.exception.ExceptionCode;
-import com.student.exception.StudentDataExceptions;
+import com.student.exception.StudentDataException;
 
 @Service
 @Component
@@ -41,29 +41,29 @@ public class StudentService {
 		return studentRepo.findAll();
 	}
 	
-	public List<Student> getStudentById(Long id) throws StudentDataExceptions {
+	public List<Student> getStudentById(Long id) throws StudentDataException {
 		if(studentRepo.findById(id).isPresent()) {
 			return studentRepo.findStudentById(id);
 		}
-	 throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, "student with "+id+ " does not exist");
+	throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "student with ID "+id+ " does not exist");
 	}
 	@ResponseStatus(HttpStatus.OK)
-	public void addStudent(Student student) throws StudentDataExceptions {
+	public void addStudent(Student student) throws StudentDataException {
 		String email = student.getEmail();
 		if(studentRepo.findByEmail(email).isPresent()) {// || !studentRepo.findByEmail(email).isEmpty()){
-			LOGGER.info("email>>>>{}",email);
-			throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, "email already taken");
+			//LOGGER.info("email>>>>{}",email);
+			throw new StudentDataException(ErrorCode.EMAIL_ALREADY_TAKEN, "Requested "+email+" email already taken");
 			//throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, ErrorCode.EMAIL_ALREADY_TAKEN);
 		}
 		studentRepo.save(student);
 	
 	}
 	
-	public void deleteStudentById(Long id) {
+	public void deleteStudentById(Long id) throws StudentDataException {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
-				throw new IllegalArgumentException("student with"+id+ " does not exist");
+				throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "student with ID "+id+ " does not exist");
 			}
 			studentRepo.deleteById(id);
 		}
@@ -78,11 +78,13 @@ public class StudentService {
 			if(!isExist) {
 				throw new IllegalArgumentException("student with"+id+ " does not exist");
 			}
-			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" doesnot exist"));
+			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" "+ErrorCode.DATA_DOES_NOT_EXIST));
             student.setFirstName(fname);
             student.setLastName(lname);
 			//studentRepo.save(student);
 		}
-		//throw new IllegalArgumentException("ID can not be null");
-	}
+		if(id==null) {
+			throw new IllegalArgumentException("ID can not be null");
+		}
+		}
 }

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.student.bean.Student;
-import com.student.exception.StudentDataExceptions;
+import com.student.exception.StudentDataException;
 import com.student.service.StudentService;
 
 @RestController
@@ -43,15 +43,15 @@ public class StudentController {
 	}
 	
 	 @GetMapping("/{id}") 
-	 public List<Student> getStudentById(@PathVariable Long id) throws StudentDataExceptions {
+	 public List<Student> getStudentById(@PathVariable Long id) throws StudentDataException {
 	     return stuService.getStudentById(id); 
 	 }
 	 @PostMapping
-	 public void addStudent(@RequestBody Student student) throws StudentDataExceptions {
+	 public void addStudent(@RequestBody Student student) throws StudentDataException {
 		stuService.addStudent(student); 
 	 }
 	 @DeleteMapping("/{id}")
-	 public void deleteStudentById(@PathVariable Long id) {
+	 public void deleteStudentById(@PathVariable Long id) throws StudentDataException {
 		 stuService.deleteStudentById(id);
 	 }
 	 @PutMapping("/{id}")
