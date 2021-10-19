@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.student.service.StudentService;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
@@ -57,7 +56,6 @@ public class Student {
 	
 	public Student() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Student(Long id, String firstName, String lastName, String email, LocalDate dob) {
