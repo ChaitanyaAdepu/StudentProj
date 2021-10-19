@@ -23,7 +23,7 @@ import com.student.service.StudentService;
 @Entity
 @Table(appliesTo = "student")
 public class Student {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Student.class);
 
 	@Id
 	@SequenceGenerator(
@@ -53,7 +53,6 @@ public class Student {
 	@JsonProperty("dob")
 	@Column(name = "dob")
 	private LocalDate dob;
-	//@JsonProperty("age")
 	@Transient
 	private Integer age;
 	
@@ -69,7 +68,6 @@ public class Student {
 		this.lastName = lastName;
 		this.email = email;
 		this.dob = dob;
-		//this.age=age;
 	}
 
 	public Student(String firstName, String lastName, String email, LocalDate dob) {
@@ -78,7 +76,6 @@ public class Student {
 		this.lastName = lastName;
 		this.email = email;
 		this.dob = dob; 
-		//this.age=age;
 	}
 
 	public Long getId() {
@@ -112,7 +109,7 @@ public class Student {
 		this.dob = dob;
 	}
 	public Integer getAge() {
-        return age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
 	}
 	public void setAge(Integer age) {
 		this.age = age;

@@ -39,30 +39,24 @@ public class StudentController {
 	
 	@GetMapping
 	public List<Student> getStudents() {
-		 LOGGER.info("test");
 		return stuService.getStudents();
 	}
 	
 	 @GetMapping("/{id}") 
 	 public String getStudentById(@PathVariable String id) {
-		 LOGGER.debug("test");
 	     return stuService.getStudentById(id); 
 	 }
 	 @PostMapping
 	 public void addStudent(@RequestBody Student student) throws StudentDataExceptions {
-		 LOGGER.debug("test");
-		 LOGGER.debug("id>>>{}",student.getEmail());
 		stuService.addStudent(student); 
 	 }
 	 @DeleteMapping("/{id}")
 	 public void deleteStudentById(@PathVariable Long id) {
-		 LOGGER.info("id>>>{}",id);
 		 stuService.deleteStudentById(id);
 	 }
-	/* @PutMapping("/{id}")
-	 public void updateStudentById(@PathVariable Long id,@RequestParam(required = false) String fname,@RequestParam(required = false) String lname) {
-		 LOGGER.info("id>>>{}",id);
-		 LOGGER.info("fname{}>>>lname{}",fname,lname);
+	 @PutMapping("/{id}")
+	 public void updateStudentById(@PathVariable Long id,@RequestParam(name="firstName",required = false) String fname,@RequestParam(name="lastName",required = false) String lname) {
 		 stuService.updateStudentById(id,fname,lname);
-	 }*/
+	 }
+	 
 }

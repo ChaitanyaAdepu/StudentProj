@@ -70,18 +70,15 @@ public class StudentService {
 	}
 	@Transactional
 	public void updateStudentById(Long id,String fname,String lname) {
-		//LOGGER.info("id is>>>{}",id);
 		if(id!=null) {
-			//LOGGER.info("id inside if>>>{}",id);
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
 				throw new IllegalArgumentException("student with"+id+ " does not exist");
 			}
-			//LOGGER.info("id before save if>>>{}",id);
 			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" doesnot exist"));
             student.setFirstName(fname);
             student.setLastName(lname);
-			studentRepo.save(student);
+			//studentRepo.save(student);
 		}
 		//throw new IllegalArgumentException("ID can not be null");
 	}
