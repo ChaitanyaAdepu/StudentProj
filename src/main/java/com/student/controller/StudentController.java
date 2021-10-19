@@ -43,7 +43,7 @@ public class StudentController {
 	}
 	
 	 @GetMapping("/{id}") 
-	 public String getStudentById(@PathVariable String id) {
+	 public List<Student> getStudentById(@PathVariable Long id) throws StudentDataExceptions {
 	     return stuService.getStudentById(id); 
 	 }
 	 @PostMapping

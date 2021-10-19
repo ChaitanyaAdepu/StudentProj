@@ -41,8 +41,11 @@ public class StudentService {
 		return studentRepo.findAll();
 	}
 	
-	public String getStudentById(String id) {
-		return "Hello "+ErrorCode.EMAIL_ALREADY_TAKEN;
+	public List<Student> getStudentById(Long id) throws StudentDataExceptions {
+		if(studentRepo.findById(id).isPresent()) {
+			return studentRepo.findStudentById(id);
+		}
+	 throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, "student with "+id+ " does not exist");
 	}
 	@ResponseStatus(HttpStatus.OK)
 	public void addStudent(Student student) throws StudentDataExceptions {
