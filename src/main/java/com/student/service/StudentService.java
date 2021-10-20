@@ -1,9 +1,7 @@
 package com.student.service;
 
-import java.time.LocalDate;
-import java.time.Month;
+
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 
@@ -14,15 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.student.StudentRepository;
 import com.student.bean.Student;
 import com.student.exception.ErrorCode;
-import com.student.exception.ExceptionCode;
-import com.student.exception.StudentDataExceptions;
+import com.student.exception.StudentDataException;
 
 @Service
 @Component
@@ -41,26 +36,27 @@ public class StudentService {
 		return studentRepo.findAll();
 	}
 	
-	public String getStudentById(String id) {
-		return "Hello "+ErrorCode.EMAIL_ALREADY_TAKEN;
+	public List<Student> getStudentById(Long id) throws StudentDataException {
+		if(studentRepo.findById(id).isPresent()) {
+			return studentRepo.findStudentById(id);
+		}
+		throw new StudentDataException("student with ID "+id+ " does not exist");
 	}
 	@ResponseStatus(HttpStatus.OK)
-	public void addStudent(Student student) throws StudentDataExceptions {
+	public void addStudent(Student student) throws StudentDataException {
 		String email = student.getEmail();
-		if(studentRepo.findByEmail(email).isPresent()) {// || !studentRepo.findByEmail(email).isEmpty()){
-			LOGGER.info("email>>>>{}",email);
-			throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, "email already taken");
-			//throw new StudentDataExceptions(ExceptionCode.GENERIC_ERROR, ErrorCode.EMAIL_ALREADY_TAKEN);
+		if(studentRepo.findByEmail(email).isPresent()) {
+			throw new StudentDataException(ErrorCode.EMAIL_ALREADY_TAKEN, "Requested "+email+" email already taken");
 		}
 		studentRepo.save(student);
 	
 	}
 	
-	public void deleteStudentById(Long id) {
+	public void deleteStudentById(Long id) throws StudentDataException {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
-				throw new IllegalArgumentException("student with"+id+ " does not exist");
+				throw new StudentDataException("student with ID "+id+ " does not exist");
 			}
 			studentRepo.deleteById(id);
 		}
@@ -69,17 +65,19 @@ public class StudentService {
 		}
 	}
 	@Transactional
-	public void updateStudentById(Long id,String fname,String lname) {
+	public void updateStudentById(Long id,String fname,String lname) throws StudentDataException {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
-				throw new IllegalArgumentException("student with"+id+ " does not exist");
+				throw new StudentDataException("student with ID "+id+ " does not exist");
 			}
-			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" doesnot exist"));
+			Student student = studentRepo.findById(id).orElseThrow(()-> new StudentDataException("student with ID "+id+ " does not exist"));
             student.setFirstName(fname);
             student.setLastName(lname);
-			//studentRepo.save(student);
 		}
-		//throw new IllegalArgumentException("ID can not be null");
+		if(id==null || String.valueOf(id).equals("")) {
+			throw new StudentDataException("ID can not be null");
+
+		}
 	}
 }
