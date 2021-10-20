@@ -7,12 +7,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 
-public class StudentDataException extends Exception{
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentDataException.class);
-
-	 /**
+public class StudentDataException extends RuntimeException{
+	ErrorCode errCode;
+	
+	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+	public StudentDataException(String msg) {
+		super(msg);
+	}
+	public StudentDataException(ErrorCode errCode, String msg) {
+		this.errCode = errCode;
+	}
+	public ErrorCode getErrCode() {
+		return errCode;
+	}
+	
+	/*
+	private static final Logger LOGGER = LoggerFactory.getLogger(StudentDataException.class);
+
 	private static final long serialVersionUID = 1L;
 	ErrorCode errCode;
 	 String message;
@@ -52,6 +66,6 @@ public class StudentDataException extends Exception{
 	public ZonedDateTime getTimeStamp() {
 		return timeStamp;
 	}
-
+*/
 
 }

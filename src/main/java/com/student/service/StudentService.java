@@ -40,7 +40,7 @@ public class StudentService {
 		if(studentRepo.findById(id).isPresent()) {
 			return studentRepo.findStudentById(id);
 		}
-	throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "student with ID "+id+ " does not exist");
+		throw new StudentDataException("student with ID "+id+ " does not exist");
 	}
 	@ResponseStatus(HttpStatus.OK)
 	public void addStudent(Student student) throws StudentDataException {
@@ -56,7 +56,7 @@ public class StudentService {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
-				throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "student with ID "+id+ " does not exist");
+				throw new StudentDataException("student with ID "+id+ " does not exist");
 			}
 			studentRepo.deleteById(id);
 		}
@@ -69,14 +69,15 @@ public class StudentService {
 		if(id!=null) {
 			boolean isExist = studentRepo.existsById(id);
 			if(!isExist) {
-				throw new IllegalArgumentException("student with"+id+ " does not exist");
+				throw new StudentDataException("student with ID "+id+ " does not exist");
 			}
-			Student student = studentRepo.findById(id).orElseThrow(()->new IllegalStateException("student with ID "+id+" "+ErrorCode.DATA_DOES_NOT_EXIST));
+			Student student = studentRepo.findById(id).orElseThrow(()-> new StudentDataException("student with ID "+id+ " does not exist"));
             student.setFirstName(fname);
             student.setLastName(lname);
 		}
 		if(id==null || String.valueOf(id).equals("")) {
-			throw new StudentDataException(ErrorCode.DATA_DOES_NOT_EXIST, "ID can not be null");
+			throw new StudentDataException("ID can not be null");
+
 		}
-		}
+	}
 }
