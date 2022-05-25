@@ -2,10 +2,18 @@ package com.student.controller;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +31,6 @@ import com.student.service.StudentService;
 @RestController
 @RequestMapping("api/v1/students")
 public class StudentController {
-	//private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
-
 	@Autowired
 	StudentService stuService;
 	
@@ -55,4 +61,11 @@ public class StudentController {
 		 stuService.updateStudentById(id,fname,lname);
 	 }
 	 
+//	 @GetMapping("/page/{pageNo}")
+//	 public String findPaginated(@PathVariable (value="pageNo") int pgNo) {
+//		 int pagesize = 5;
+//		 Page<Student> page =stuService.findPaginated(pgNo, pagesize);
+//		 List<Student> students = page.getContent();
+//		 return null;
+//	 }
 }

@@ -5,6 +5,8 @@ import java.time.Period;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,6 +56,8 @@ public class Student {
 	@Transient
 	private Integer age;
 	
+
+	
 	public Student() {
 		super();
 	}
@@ -66,7 +70,6 @@ public class Student {
 		this.email = email;
 		this.dob = dob;
 	}
-
 	public Student(String firstName, String lastName, String email, LocalDate dob) {
 		super();
 		this.firstName = firstName;

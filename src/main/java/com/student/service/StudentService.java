@@ -2,6 +2,7 @@ package com.student.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 
@@ -10,27 +11,27 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.student.StudentRepository;
 import com.student.bean.Student;
 import com.student.exception.ErrorCode;
 import com.student.exception.StudentDataException;
+import com.student.repo.StudentRepo;
 
 @Service
-@Component
-@Transactional
 public class StudentService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+	
+private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
 	
 	@Autowired
-	StudentRepository studentRepo;
+	StudentRepo studentRepo;
 	
-	public StudentService() {
-   // use later 
- } 
+	
 	public List<Student> getStudents() {
 		LOGGER.info("inside getstudntsmethod");
 		return studentRepo.findAll();
@@ -80,4 +81,8 @@ public class StudentService {
 
 		}
 	}
+//	public Page<Student> findPaginated(int pageNo,int pageSize){
+//		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+//		return this.studentRepo.findAll(pageable);
+//	}
 }
