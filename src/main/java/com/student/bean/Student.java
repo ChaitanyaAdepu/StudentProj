@@ -51,10 +51,9 @@ public class Student {
 	private String email;
 	
 	@JsonProperty("dob")
-	@Column(name = "dob")
 	private LocalDate dob;
-	@Transient
-	private Integer age;
+//	@Transient
+//	private Integer age;
 	
 
 	
@@ -68,14 +67,14 @@ public class Student {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.dob = dob;
+	//	this.dob = dob;
 	}
 	public Student(String firstName, String lastName, String email, LocalDate dob) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.dob = dob; 
+		//this.dob = dob; 
 	}
 
 	public Long getId() {
@@ -102,18 +101,18 @@ public class Student {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public LocalDate getDob() {
-		return dob;
-	}
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-	public Integer getAge() {
-        return Period.between(this.dob, LocalDate.now()).getYears();
-	}
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+//	public LocalDate getDob() {
+//		return dob;
+//	}
+//	public void setDob(LocalDate dob) {
+//		this.dob = dob;
+//	}
+//	public Integer getAge() {
+//        return Period.between(this.dob, LocalDate.now()).getYears();
+//	}
+//	public void setAge(Integer age) {
+//		this.age = age;
+//	}
 	
 	
 }
