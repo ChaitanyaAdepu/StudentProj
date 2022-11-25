@@ -3,6 +3,7 @@ package com.student.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.student.bean.AuthBean;
 import com.student.bean.Student;
 import com.student.exception.StudentDataException;
 import com.student.service.StudentService;
@@ -38,7 +40,7 @@ public class StudentController {
 	    this.stuService = stuService;
 	}
 
-	
+	 
 	@GetMapping
 	public List<Student> getStudents() {
 		return stuService.getStudents();
@@ -50,10 +52,16 @@ public class StudentController {
 	 }
 	 @PostMapping
 	 public void addStudent(@RequestBody Student student) throws StudentDataException {
+		 System.out.println(""+student.getFirstName()+" "+student.getEmail());
 		stuService.addStudent(student); 
+	 }
+	 @PostMapping("/async")
+	 public List<Student> saveAndReturnResult(@RequestBody Student student) throws StudentDataException, ExecutionException, InterruptedException {
+		return stuService.addStudentAndReturnList(student); 
 	 }
 	 @DeleteMapping("/{id}")
 	 public void deleteStudentById(@PathVariable Long id) throws StudentDataException {
+		 System.out.println("delete student method");
 		 stuService.deleteStudentById(id);
 	 }
 	 @PutMapping("/{id}")
